@@ -1,2 +1,4 @@
 *.pyc
 custom_settings.py
+site_media/photologue/
+site_media/upload/

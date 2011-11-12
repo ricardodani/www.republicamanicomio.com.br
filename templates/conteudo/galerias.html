@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+
+{% block title %}{% if galeria %}{{ galeria.title }}{% else %}Fotos{% endif %}{% endblock %}
+
+  {% block extra_css %}
+  <link href="{% url site_media 'css/jquery.lightbox-0.5.css' %}" rel="stylesheet" type="text/css">
+  {% endblock %}
+  
+  {% block extra_javascript %}
+  <script type="text/javascript" src="{% url site_media 'js/jquery.js' %}"></script>
+  <script type="text/javascript" src="{% url site_media 'js/jquery.lightbox-0.5.js' %}"></script>
+  <script type="text/javascript">
+	$(function() {
+
+	    $('#galeria a').lightBox(); // Select all links in object with gallery ID
+	});
+	</script>
+  {% endblock %}
+  
+
+
+{% block conteudo %}
+
+  <div id="galeria">
+    {% if galeria %}
+    <h1>{{ galeria.title }}</h1>
+    <h5>{{ galeria.description }}</h5>
+      {% for p in galeria.photos.all %}
+        <a href="{{ p.get_display_url }}"><img class="foto" src="{{ p.get_thumbnail_url }}" title="{{ p.title }}" alt="{{ p.title }}" /></a>
+      {% endfor %}
+	    <br /><br />
+    {% endif %}
+  </div>
+  <div id="galerias">
+     <h1>Galerias</h1>
+     {% if galerias %}
+         
+         {% for g in galerias %}
+         <p class="galeria">
+         <strong class="azul"><img src="{% url site_media 'img/fotos.png' %}" />
+         &nbsp;<a href="{% url fotos g.id %}">{{ g.title }}</a></strong><br />
+           <br />
+         </p>
+         {% endfor %}
+         
+     {% endif%}
+  </div>
+
+  
+
+{% endblock %}

@@ -1,0 +1,116 @@
+# -*- encoding: utf-8 -*-
+
+from django.db import models
+from django.contrib.localflavor.br.br_states import STATE_CHOICES as UFS
+from django.contrib.auth.models import User
+from escolademedicina.utils import dbprefix
+from django.conf import settings
+
+
+class DisciplinaCategoria(models.Model):
+    """Categoria das Disciplinas (Eletiva, Optativa, Obrigatória, etc)"""
+    
+    nome = models.CharField(max_length=50, unique=True)
+    
+    def __unicode__(self):
+        return self.nome
+
+    class Meta:
+        db_table = dbprefix("disciplina_categoria")
+        verbose_name = u"Categoria da Disciplina"
+        verbose_name_plural = u"Categorias das Disciplinas"
+
+class Disciplina(models.Model):
+    """Disciplinas"""
+    
+    nome = models.CharField(max_length=100, unique=True)
+    categoria = models.ForeignKey(DisciplinaCategoria)
+    descricao = models.TextField(verbose_name=u"Descrição da Disciplina")
+    
+    def __unicode__(self):
+        return self.nome
+
+    class Meta:
+        db_table = dbprefix("disciplina")
+
+class ProfessorCategoria(models.Model):
+    """Categoria dos Professores (Efetivo, substituto, etc)"""
+    
+    nome = models.CharField(max_length=50, unique=True)
+    
+    def __unicode__(self):
+        return self.nome
+
+    class Meta:
+        db_table = dbprefix("professor_categoria")
+        verbose_name = u"Categoria do Professor"
+        verbose_name_plural = u"Categorias dos Professores"
+
+
+def caminho_foto(instance, filename):
+  nome = instance.nome
+  return "%s/fotos/%s/%s" % (settings.UPLOAD_PATH, "".join(nome.lower().split()), filename)
+  
+class Professor(models.Model):
+    """Perfil do professor com seus dados."""
+    
+    user = models.ForeignKey(User, unique=True, verbose_name=u"Usuário do Sistema")
+    
+    foto = models.ImageField(upload_to=caminho_foto)
+
+    nome = models.CharField(max_length=100)
+    categoria = models.ForeignKey(ProfessorCategoria)
+    
+    curriculo = models.TextField(verbose_name=u"Currículo")
+
+    cidade = models.CharField(null=True, blank=True, max_length=100)
+    uf = models.CharField(null=True, blank=True, max_length=2, choices=UFS)
+    
+    disciplinas = models.ManyToManyField(Disciplina)
+    
+    def __unicode__(self):
+        return self.nome
+    
+    class Meta:
+        db_table = dbprefix("professor")
+        verbose_name_plural = u"Professores"
+
+def caminho_download(instance, filename):
+  id = instance.professor.id
+  return "%s/professor_downloads/%s/%s" % (settings.UPLOAD_PATH, id, filename)
+
+class ProfessorDownload(models.Model):
+    """Downloads dos Professores"""
+    
+    nome = models.CharField(max_length=100, unique=True)
+    professor = models.ForeignKey("Professor")
+    arquivo = models.FileField(upload_to=caminho_download)
+    
+    def __unicode__(self):
+        return self.nome
+
+    class Meta:
+        db_table = dbprefix("professor_download")
+        verbose_name = u"Download do Professor"
+        verbose_name_plural = u"Downloads dos Professores"
+
+
+
+class Tecnico(models.Model):
+    """Perfil do professor com seus dados."""
+    
+    user = models.ForeignKey(User, unique=True, null=True, blank=True, verbose_name=u"Usuário do Sistema")
+
+    foto = models.ImageField(upload_to=caminho_foto)
+    
+    nome = models.CharField(max_length=100)
+    cargo = models.CharField(null=True, blank=True, max_length=100)
+    
+    def __unicode__(self):
+        return self.nome
+    
+    class Meta:
+        db_table = dbprefix("tecnico")
+        verbose_name = u"Técnico"
+        verbose_name_plural = u"Técnicos"
+    

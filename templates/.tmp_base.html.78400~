@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html dir="ltr" xml:lang="pt-br" lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <title>{% block title %}{{ SITE_NAME }}{% endblock %}</title>
+       
+  <link href="{% url site_media 'css/base.css' %}" rel="stylesheet" type="text/css">
+  
+  {% block extra_css %}
+  <link href="{% url site_media 'css/jquery.lightbox-0.5.css' %}" rel="stylesheet" type="text/css">
+  {% endblock %}
+  {% block extra_javascript %}
+  <script type="text/javascript" src="{% url site_media 'js/jquery.js' %}"></script>
+  <script type="text/javascript" src="{% url site_media 'js/jquery.lightbox-0.5.js' %}"></script>
+  <script type="text/javascript">
+    $(function() {
+
+        $('#fotos a.foto').lightBox(); // Select all links in object with gallery ID
+    });
+    </script>
+  {% endblock %}
+  
+  {% if alert %}
+  <script>
+  window.alert('{{ alert }}');
+  </script>
+  {% endif %}
+</head>
+<body>
+<img id="img_esq" src="{% url site_media 'img/casa.png' %}" alt="{{ SITE_NAME }}" title="{{ SITE_NAME }}" />
+<a href="/" id="logo"><img src="{% url site_media 'img/logo.png' %}" alt="{{ SITE_NAME }}" title="{{ SITE_NAME }}" /></a>
+<img id="img_dir" src="{% url site_media 'img/galerao.png' %}" alt="{{ SITE_NAME }}" title="{{ SITE_NAME }}" />
+<div id="menu">
+        {% load tree_menu_tags %}           
+        {% show_menu "Menu Principal" %}
+
+</div>
+
+<div id="container">
+	<div id="conteudo">
+		<div id="esquerda">
+		{% block conteudo %}
+		{% endblock %}
+		</div>
+		<div id="direita">
+		{% include "conteudo/portlets.html" %}
+		</div>
+	</div>
+</div>
+<center>
+<address>Rua Conselheiro Quintiliano, 903<br />Ouro Preto - MG<br />31-3551-5802</address>
+<small>by <a href="mailto:gauchoo@gmail.com" style="color: #333;">Gaúcho</a></small>
+<br />
+<a href="http://www.djangoproject.com"><img border="0" src="{% url site_media 'img/powered.gif' %}" /></a>
+<a href="http://www.python.org"><img border="0" src="{% url site_media 'img/powered_python.png' %}" /></a>
+</center>
+
+</body>
+<html>

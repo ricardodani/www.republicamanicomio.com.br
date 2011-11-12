@@ -1,0 +1,10 @@
+<h1 class="dir_1">Últimas Fotos</h1>
+<div id="fotos">
+    {% for foto in ultimas_fotos %}
+    <a class="foto" href="{{ foto.get_display_url }}"><img src="{{ foto.get_thumbnail_url }}" /></a>
+    {% endfor %}<br />
+    <a style="clear: both; color:#990000;" href="{% url fotos %}">Ir para galeria</a><br /><br />
+</div>
+
+<h1 class="dir_2">Localização</h1>
+<iframe width="250" target="_blank" height="300" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps?f=q&amp;source=s_q&amp;hl=pt-BR&amp;geocode=&amp;q=Rua+Conselheiro+Quintiliano,903,+Ouro+Pr%C3%AAto+-+Minas+Gerais,+Brasil&amp;sll=-20.384357,-43.497587&amp;sspn=0.009273,0.021136&amp;doflg=ptk&amp;ie=UTF8&amp;hq=&amp;hnear=R.+Conselheiro+Quintiliano,+903+-+Ouro+Pr%C3%AAto+-+Minas+Gerais,+35400-000,+Brasil&amp;t=h&amp;ll=-20.384458,-43.497448&amp;spn=0.024137,0.021458&amp;z=14&amp;iwloc=A&amp;output=embed"></iframe><br /><small><a href="http://maps.google.com/maps?f=q&amp;source=embed&amp;hl=pt-BR&amp;geocode=&amp;q=Rua+Conselheiro+Quintiliano,903,+Ouro+Pr%C3%AAto+-+Minas+Gerais,+Brasil&amp;sll=-20.384357,-43.497587&amp;sspn=0.009273,0.021136&amp;doflg=ptk&amp;ie=UTF8&amp;hq=&amp;hnear=R.+Conselheiro+Quintiliano,+903+-+Ouro+Pr%C3%AAto+-+Minas+Gerais,+35400-000,+Brasil&amp;t=h&amp;ll=-20.384458,-43.497448&amp;spn=0.024137,0.021458&amp;z=14&amp;iwloc=A" style="color:#0000FF;text-align:left">Exibir mapa ampliado</a></small>

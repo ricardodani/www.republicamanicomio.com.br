@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}{{ categoria }}{% endblock %}
+
+{% block conteudo %}
+
+Filtrar por:
+<a href="/moradores/MO">Moradores</a> - 
+<a href="/moradores/EA">Ex-alunos</a> - 
+<a href="/moradores/HO">Homenageados</a> - 
+<a href="/moradores">Todos</a>
+<br /><br />
+{% ifequal categoria "Os Doidos" %}
+	{% for c in categorias %}
+		<h1>{{ c.1 }}</h1>
+		{% for m in moradores %} 
+			{% ifequal c.0 m.categoria %}
+			<div class="morador">
+				<img src="{% url site_media m.foto %}" />
+				<strong>{{ m.nome }}</strong><br />
+				{{ m.sobre }}<br />
+				<i>{{ m.cidade }} - {{ m.uf }}</i>
+			</div>
+			{% endifequal %}
+		{% endfor %}
+	{% endfor %}
+{% else %}
+
+<h1>{{ categoria }}</h1>
+
+
+{% for m in moradores %}
+
+<div class="morador">
+	<img src="{% url site_media m.foto %}" />
+	<strong>{{ m.nome }}</strong><br />
+	{{ m.sobre }}<br />
+	<i>{{ m.cidade }} - {{ m.uf }}</i>
+</div>
+
+{% endfor %}
+
+
+{% endifequal %}
+ 
+
+{% endblock %}

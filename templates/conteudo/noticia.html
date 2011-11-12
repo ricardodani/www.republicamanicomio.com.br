@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}{{ noticia.titulo }}{% endblock %}
+
+{% block extra_javascript %}
+<script type="text/javascript" src="{% url site_media 'js/jquery.js' %}"></script>
+<script type="text/javascript" src="{% url site_media 'js/jquery.lightbox-0.5.js' %}"></script>
+<script type="text/javascript">
+$(function() {
+
+    $('#fotos a.foto').lightBox(); // Select all links in object with gallery ID
+    $('#sample a.foto').lightBox(); // Select all links in object with gallery ID
+});
+
+</script>
+{% endblock %}
+
+{% block conteudo %}
+
+
+<h1>{{ noticia.titulo }}</h1>
+<p><img src="{% url site_media noticia.foto %}" alt="{{ noticia.titulo }}" class="center" />{{ noticia.html|safe }}</p>
+<i>Publicado em {{ noticia.data_publicacao|date }}</i>
+
+
+
+{% if conteudo_relacionado %}
+<div class="conteudo_relacionado">
+<h1>Conteúdo Relacionado</h1>
+    {% if conteudo_relacionado.galerias %}
+	    
+		{% for g in conteudo_relacionado.galerias %}
+		   <h3><img src="{% url site_media 'img/fotos.png' %}" />{{ g.titulo }}</h3>
+		   <div id="sample">
+		   {% for p in g.sample %}
+	       <a href="{{ p.get_display_url }}" class="foto"><img src="{{ p.get_thumbnail_url }}" title="{{ p.title }}" alt="{{ p.title }}" /></a>
+	       {% endfor %}
+		   <br /><a href="{% url fotos g.id %}">Ver Galeria</a>
+		   </div>
+		{% endfor %}
+		
+	{% endif %}
+	
+	{% if conteudo_relacionado.videos %}
+       
+	   {% for v in conteudo_relacionado.videos %}
+	        <h3><img src="{% url site_media 'img/video.png' %}" />{{ v.titulo }}</h3>
+	        <object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/{{v.cod}}&amp;hl=pt_BR&amp;fs=1?rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/{{v.cod}}&amp;hl=pt_BR&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object>
+	    {% endfor %}
+    {% endif %}
+	
+	{% if conteudo_relacionado.paginas %}
+	   <h3>Páginas Relacionadas</h3>
+	   {% for p in conteudo_relacionado.paginas %}
+	       {{ p.titulo }} - <a href="{% url pagina p.slug %}">{% url pagina p.slug %}</a> <br />
+	   {% endfor %}
+    {% endif %}
+</div>
+{% endif %}
+
+
+{% endblock %}

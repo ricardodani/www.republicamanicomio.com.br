@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+
+{% block title %}Home{% endblock %}
+
+{% block conteudo%}
+{% if destaque %}
+<span class="block">
+
+<h1 class="esq_1">{{ destaque.titulo }}</h1>
+
+
+<img src="{% url site_media destaque.foto %}" />
+{{ destaque.html|safe }}
+<a style="clear: both; color: rgb(153, 0, 0);" href="{% url noticia destaque.cod %}">Ver</a>
+</span>
+
+
+{% endif %}
+
+{% if noticias %}
+<span class="block">
+
+<h1 class="esq_1">Outras notícias</h1>
+    <ul id="noticias">
+        {% for i in noticias %}
+        <li><a style="clear: both; color: rgb(153, 0, 0);" href="{% url noticia i.cod %}">{{ i.titulo }}</a><br />
+		<small>{{ i.descricao }}</small>
+		</li>
+        {% endfor %}
+    </ul>
+</span>
+{% endif %}
+
+
+{% if video %}
+<span class="block">
+<h1 class="esq_2">{{ video.titulo }}</h1>
+<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/{{video.cod}}&amp;hl=pt_BR&amp;fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/{{video.cod}}&amp;hl=pt_BR&amp;fs=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object>
+</span>
+{% endif %}
+{% endblock %}

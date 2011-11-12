@@ -1,0 +1,46 @@
+# -*- encoding: utf-8 -*-
+from models import Professor, ProfessorCategoria, Tecnico
+from django.template import RequestContext
+from django.shortcuts import render_to_response
+from django.http import Http404
+
+def professores(request, categoria=None):
+  if categoria:
+    p = Professor.objects.filter(categoria__id=categoria)
+    cat = ProfessorCategoria.objects.filter(id=categoria)[0]
+  else:
+    p = Professor.objects.all()
+    cat = None
+  c = { 'professores': p, 'categoria':cat or None}
+  return render_to_response('conteudo/professores.html', c, context_instance=RequestContext(request))
+
+def professor(request, id):
+  try:
+    p = Professor.objects.get(pk=id)
+  except:
+    raise Http404
+  c = { 'professor': p, }
+  return render_to_response('conteudo/professor.html', c, context_instance=RequestContext(request))
+
+def disciplinas(request, professor):
+  try:
+    p = Professor.objects.get(pk=professor)
+  except:
+    raise Http404
+  c = { 'professor': p, 'disciplinas': p.disciplinas.all(), }
+  return render_to_response('conteudo/disciplinas.html', c, context_instance=RequestContext(request))
+
+def downloads(request, professor):
+  try:
+    p = Professor.objects.get(pk=professor)
+  except:
+    raise Http404
+  c = { 'professor': p, 'downloads': p.professordownload_set.all(), }
+  return render_to_response('conteudo/downloads.html', c, context_instance=RequestContext(request))
+
+
+
+def tecnicos(request):
+  t = Tecnico.objects.all()
+  c = { 'tecnicos': t, }
+  return render_to_response('conteudo/tecnicos.html', c, context_instance=RequestContext(request))

@@ -1,0 +1,6 @@
+{% if photo %}
+<div class="photo">
+<span>Anterior:</span><br />
+<a title="{{ photo.title }}" href="{{ photo.get_absolute_url }}"><img src="{{ photo.get_thumbnail_url }}"/></a>
+</div>
+{% endif %}

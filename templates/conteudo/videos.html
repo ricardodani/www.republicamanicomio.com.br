@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Vídeos do Youtube{% endblock %}
+
+{% block conteudo %}
+<div id="videos">
+	<h1>Vídeos do YouTube</h1>
+    {% for v in videos %}
+    	<h4><a href="http://www.youtube.com/watch?v={{v.cod}}">{{ v.titulo }}</a></h4>
+    	<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/{{v.cod}}&amp;hl=pt_BR&amp;fs=1?rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/{{v.cod}}&amp;hl=pt_BR&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object>
+    {% endfor %}
+</div>
+{% endblock %}

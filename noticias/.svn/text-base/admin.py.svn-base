@@ -1,0 +1,14 @@
+# -*- encoding: utf-8 -*-
+
+from models import Noticia
+from django.contrib import admin
+
+class NoticiaAdmin(admin.ModelAdmin):
+  prepopulated_fields = {"cod": ("titulo",)}
+  list_display = ('cod', 'titulo', 'descricao', 'ativado', 'foto', 'data_criacao', 'data_publicacao')
+  list_filter = ('data_criacao', 'data_publicacao', 'ativado')
+  
+  class Media:
+    js = ['/admin_media/tinymce/jscripts/tiny_mce/tiny_mce.js', '/admin_media/tinymce_setup/tinymce_setup.js',]
+
+admin.site.register(Noticia, NoticiaAdmin)

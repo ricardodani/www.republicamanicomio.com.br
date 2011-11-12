@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Mural de Recados{% endblock %}
+
+{% block conteudo %}
+<h1>Últimos Recados</h1>
+{% if recados %}
+{% for r in recados %}
+  <p class="recado">
+      <strong>De: </strong>{{ r.de }}<br />
+      <strong>Para: </strong>{{ r.para }}<br />
+      {{ r.texto }}<br />
+      <i>Criado em {{ r.data_criacao|date }}</i>
+  </p>
+{% endfor %}
+{% else %}
+<p>Não existem recados cadastrados.</p>
+{% endif %}
+
+<h1>Envie um recado</h3>
+ <form method="POST" action="{% url recados %}" enctype="multipart/form-data" id="form_p">
+  {{ form.as_p }}
+  <p><input type="submit" /></p>
+</form>
+
+
+{% endblock %}
+
